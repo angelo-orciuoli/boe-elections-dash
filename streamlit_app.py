@@ -14,6 +14,27 @@ st.markdown("""
     header {visibility: hidden;}
     [data-testid="stSidebar"] {min-width: 200px; max-width: 250px;}
     [data-testid="stSidebar"] .stRadio label p {font-size: 1.1rem; font-weight: 600;}
+    
+    /* Button styling */
+    .stButton > button {
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 0.75rem 1rem;
+    }
+    .stButton > button[kind="primary"] {
+        background-color: #1f77b4;
+        border-color: #1f77b4;
+    }
+    .stButton > button[kind="secondary"] {
+        background-color: #f0f2f6;
+        color: #333;
+    }
+    
+    /* Center matplotlib plots */
+    [data-testid="stImage"], .stPlotlyChart {
+        display: flex;
+        justify-content: center;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -116,7 +137,7 @@ with tab1:
     gdf_plot['pct_share'] = (gdf_plot[candidate_to_map] / gdf_plot['total_votes']) * 100
     
     # Plot map
-    fig, ax = plt.subplots(figsize=(10,10))
+    fig, ax = plt.subplots(figsize=(5,5))
     gdf_plot.plot(
         column='pct_share',
         cmap='Blues',
@@ -135,17 +156,50 @@ with tab1:
     
     ax.set_title(f"{candidate_to_map} Vote Density: City-Level", fontsize=12)
     ax.axis('off')
-    st.pyplot(fig)
+    st.pyplot(fig, width='content')
     
     st.divider()
     st.markdown("<h3 style='text-align: center;'> View by Borough </h3>", unsafe_allow_html=True)
 
-        # selected_boroughs_tab1 = []
-        #selected_boroughs_tab1 = ['New York', 'Kings', 'Queens', 'Bronx', 'Richmond']    
-        #for county, display_name in BOROUGH_NAMES.items():
-        #    is_selected = st.toggle(display_name, value=True, key=f"tab1_{county}")
-        #    if is_selected:
-        #        selected_boroughs_tab1.append(county)
+    # Initialize borough selection in session state
+    if 'borough_idx' not in st.session_state:
+        st.session_state.borough_idx = None  # None = no borough selected
+    
+    # Create buttons for each borough
+    borough_list = list(BOROUGH_NAMES.items())
+    borough_cols = st.columns(5)
+    for i, (county, display_name) in enumerate(borough_list):
+        with borough_cols[i]:
+            is_selected = st.session_state.borough_idx == i
+            if st.button(display_name, key=f"b{i}", use_container_width=True, type="primary" if is_selected else "secondary"):
+                st.session_state.borough_idx = i
+                st.rerun()
+    
+    # Display borough-specific map if a borough is selected
+    if st.session_state.borough_idx is not None:
+        selected_county = borough_list[st.session_state.borough_idx][0]
+        selected_borough_name = borough_list[st.session_state.borough_idx][1]
+        
+        # Filter map data for selected borough
+        gdf_borough = gdf_plot[gdf_plot['county'] == selected_county].copy()
+        
+        # Plot borough map
+        fig, ax = plt.subplots(figsize=(5,5))
+        gdf_borough.plot(
+            column='pct_share',
+            cmap='Purples',
+            linewidth=0.1,
+            edgecolor='grey',
+            vmax=gdf_borough['pct_share'].max(),
+            legend=True,
+            legend_kwds={'label': f"% Vote Share for {candidate_to_map}", 'orientation': 'horizontal', 'pad': 0.02, 'aspect': 50},
+            missing_kwds={'color': 'lightgrey', 'label': 'No Data'},
+            ax=ax
+        )
+        
+        ax.set_title(f"{candidate_to_map} Vote Density: {selected_borough_name}", fontsize=12)
+        ax.axis('off')
+        st.pyplot(fig, width='content')
 
 # ==================== TAB 2: COMPARE CANDIDATES ====================
 with tab2:
@@ -191,7 +245,7 @@ with tab2:
     gdf_compare['diff'] = gdf_compare['pct_a'] - gdf_compare['pct_b']
     
     # Plot map
-    fig, ax = plt.subplots(figsize=(10,10))
+    fig, ax = plt.subplots(figsize=(5,5))
     max_diff = gdf_compare['diff'].abs().max()
     gdf_compare.plot(
         column='diff',
