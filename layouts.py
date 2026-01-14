@@ -15,10 +15,10 @@ def create_citywide_tab(pres_map, mayor_map):
     return dbc.Container([
         dbc.Row([
             dbc.Col([
-                dcc.Graph(figure=pres_map, style={'height': '650px'})
+                dcc.Graph(figure=pres_map, style={'height': '950px'})
             ], md=6),
             dbc.Col([
-                dcc.Graph(figure=mayor_map, style={'height': '650px'})
+                dcc.Graph(figure=mayor_map, style={'height': '950px'})
             ], md=6)
         ]),
         html.Hr(),

@@ -95,7 +95,6 @@ def create_citywide_comparison_map(gdf, election_type):
         title = 'Zohran Mamdani vs Andrew Cuomo'
         colorbar_title = '← Andrew Cuomo | Zohran Mamdani →'
         hover_labels = {
-            'mayor_diff': 'Difference',
             'zohran_mamdani_pct': 'Mamdani %',
             'andrew_cuomo_pct': 'Cuomo %',
             'ElectDist': 'District'
@@ -104,14 +103,13 @@ def create_citywide_comparison_map(gdf, election_type):
             'ElectDist': True,
             'zohran_mamdani_pct': ':.1f',
             'andrew_cuomo_pct': ':.1f',
-            'mayor_diff': ':.1f'
+            'mayor_diff': False
         }
     else:  # presidential
         col_name = 'pres_diff'
         title = 'Kamala Harris vs Donald Trump'
         colorbar_title = '← Donald Trump | Kamala Harris →'
         hover_labels = {
-            'pres_diff': 'Difference',
             'harris_pct': 'Harris %',
             'trump_pct': 'Trump %',
             'ElectDist': 'District'
@@ -120,7 +118,7 @@ def create_citywide_comparison_map(gdf, election_type):
             'ElectDist': True,
             'harris_pct': ':.1f',
             'trump_pct': ':.1f',
-            'pres_diff': ':.1f'
+            'pres_diff': False
         }
     
     fig = px.choropleth_map(
@@ -164,6 +162,16 @@ def create_citywide_comparison_map(gdf, election_type):
             bounds=dict(west=-74.3, east=-73.7, south=40.45, north=40.95)
         )
     )
+    
+    # Custom hovertemplate to hide index
+    if election_type == 'mayoral':
+        fig.update_traces(
+            hovertemplate='<b>District %{customdata[0]}</b><br>Mamdani: %{customdata[1]:.1f}%<br>Cuomo: %{customdata[2]:.1f}%<extra></extra>'
+        )
+    else:
+        fig.update_traces(
+            hovertemplate='<b>District %{customdata[0]}</b><br>Harris: %{customdata[1]:.1f}%<br>Trump: %{customdata[2]:.1f}%<extra></extra>'
+        )
     
     return fig
 
