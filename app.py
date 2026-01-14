@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from data_cleaner import ElectionDataCleaner, get_county_vote_tables
 
 # Page config
-st.set_page_config(page_title="NYC Election Map", layout="wide")
+st.set_page_config(page_title="NYC Election Map", layout="wide", page_icon="public/votenyc.png")
 
 # Custom CSS
 st.markdown("""
