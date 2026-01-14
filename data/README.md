@@ -16,11 +16,11 @@ Source of Original Datasets:
 from data_cleaner import ElectionDataCleaner
 
 # Mayoral election
-cleaner = ElectionDataCleaner("citywide_mayor_citywide.csv", election_type='mayor')
+cleaner = ElectionDataCleaner("data/citywide_mayor_citywide.csv", election_type='mayor')
 df_candidate, df_ballot_type, merged_districts = cleaner.load_and_clean()
 
 # Presidential election
-cleaner = ElectionDataCleaner("citywide_president_citywide.csv", election_type='president')
+cleaner = ElectionDataCleaner("data/citywide_president_citywide.csv", election_type='president')
 df_candidate, df_ballot_type, merged_districts = cleaner.load_and_clean()
 ```
 
