@@ -4,11 +4,11 @@ Configuration constants for NYC Election Dashboard.
 
 # Borough configuration with display names, map centers, and zoom levels
 BOROUGH_CONFIG = {
-    'New York': {'name': 'Manhattan', 'center': {'lat': 40.7831, 'lon': -73.9712}, 'zoom': 11},
-    'Kings': {'name': 'Brooklyn', 'center': {'lat': 40.6782, 'lon': -73.9442}, 'zoom': 10.5},
-    'Queens': {'name': 'Queens', 'center': {'lat': 40.7282, 'lon': -73.7949}, 'zoom': 10},
-    'Bronx': {'name': 'Bronx', 'center': {'lat': 40.8448, 'lon': -73.8648}, 'zoom': 11},
-    'Richmond': {'name': 'Staten Island', 'center': {'lat': 40.5795, 'lon': -74.1502}, 'zoom': 11}
+    'New York': {'name': 'Manhattan', 'center': {'lat': 40.7881, 'lon': -73.9712}, 'zoom': 10.5},
+    'Kings': {'name': 'Brooklyn', 'center': {'lat': 40.65, 'lon': -73.9442}, 'zoom': 10.5},
+    'Queens': {'name': 'Queens', 'center': {'lat': 40.6725, 'lon': -73.796741}, 'zoom': 10},
+    'Bronx': {'name': 'Bronx', 'center': {'lat': 40.8504, 'lon': -73.8648}, 'zoom': 11},
+    'Richmond': {'name': 'Staten Island', 'center': {'lat': 40.5787, 'lon': -74.1502}, 'zoom': 10.5}
 }
 
 # NYC center for citywide view
