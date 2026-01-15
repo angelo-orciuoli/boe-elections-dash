@@ -162,7 +162,7 @@ def create_citywide_comparison_map(gdf, election_type):
     # Configure for each election type
     if election_type == 'mayoral':
         col_name = 'mayor_diff'
-        title = 'Zohran Mamdani vs Andrew Cuomo'
+        title = '2025 Mayoral Election'
         hover_labels = {
             'zohran_mamdani_pct': 'Mamdani %',
             'andrew_cuomo_pct': 'Cuomo %',
@@ -178,7 +178,7 @@ def create_citywide_comparison_map(gdf, election_type):
         }
     else:  # presidential
         col_name = 'pres_diff'
-        title = 'Kamala Harris vs Donald Trump'
+        title = '2024 Presidential Election'
         hover_labels = {
             'harris_pct': 'Harris %',
             'trump_pct': 'Trump %',
@@ -251,12 +251,13 @@ def create_citywide_comparison_map(gdf, election_type):
         right_candidate = 'Harris'
     
     fig.update_layout(
-        margin=dict(l=0, r=0, t=50, b=80),  # Increased bottom margin for colorbar
+        margin=dict(l=0, r=0, t=60, b=40),
         title=dict(
-            text=f"<b>{title}</b>",
+            text=f"{title}",
             x=0.5,
             xanchor='center',
-            font=dict(size=18)
+            yanchor='middle',
+            font=dict(size=28, family='system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif')
         ),
         coloraxis_showscale=True,  # Show the colorbar
         coloraxis_colorbar=dict(
@@ -272,7 +273,7 @@ def create_citywide_comparison_map(gdf, election_type):
             ticks=''
         ),
         map=dict(
-            bounds=dict(west=-74.3, east=-73.7, south=40.45, north=40.95)
+            bounds=dict(west=-74.32, east=-73.65, south=40.45, north=40.95)
         ),
         # Custom legend and colorbar labels using annotations
         annotations=[
@@ -368,7 +369,7 @@ def create_borough_map(gdf, county_code):
     fig.update_layout(
         showlegend=False,
         margin=dict(l=0, r=0, t=40, b=0),
-        title=dict(text=f"<b>{config['name']}</b>", x=0.5, xanchor='center', font=dict(size=16))
+        title=dict(text=f"<b>{config['name']}</b>", x=0.5, xanchor='center', font=dict(size=16, family='system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'))
     )
     
     # Custom hovertemplate

@@ -13,6 +13,59 @@ from map_utils import load_and_merge_data, create_citywide_comparison_map, creat
 def create_citywide_tab(pres_map, mayor_map):
     """Create the Citywide Overview tab content."""
     return dbc.Container([
+        # Hero Section - Two-column layout with subtle background container
+        html.Div([
+            dbc.Row([
+                # Left Column: Title and Description
+                dbc.Col([
+                    html.H3(
+                        "Side-by-Side Election Comparison",
+                        className="fw-bold mb-4",
+                        style={'color': '#2c3e50'}
+                    ),
+                    dcc.Markdown('''
+                        - **The Goal:** Visualize vote share differences across NYC's election districts for two major elections.
+                        - **The Data:** **2024 Presidential** (Harris vs Trump) and **2025 Mayoral** (Mamdani vs Cuomo).
+                        - **The Method:** Diverging color scale — **Blue** indicates higher support for the Democratic/Progressive candidate, **Red** indicates higher support for the opposing candidate.
+                    ''', style={'fontSize': '16px', 'lineHeight': '1.8', 'color': '#444'})
+                ], width=7, className="d-flex flex-column justify-content-center pe-5"),
+                
+                # Right Column: Color Scale Explanation
+                dbc.Col([
+                    html.Div([
+                        html.Div([
+                            html.Span("🔵", style={'fontSize': '24px'}),
+                            html.Span(" Blue: Higher Democratic/Progressive vote share", 
+                                     style={'fontSize': '14px', 'color': '#2166AC', 'fontWeight': '500'})
+                        ], className="mb-2"),
+                        html.Div([
+                            html.Span("⚪", style={'fontSize': '24px'}),
+                            html.Span(" White/Neutral: Even split between candidates", 
+                                     style={'fontSize': '14px', 'color': '#666'})
+                        ], className="mb-2"),
+                        html.Div([
+                            html.Span("🔴", style={'fontSize': '24px'}),
+                            html.Span(" Red: Higher Republican/Opposition vote share", 
+                                     style={'fontSize': '14px', 'color': '#B2182B', 'fontWeight': '500'})
+                        ]),
+                    ], style={'padding': '20px', 'backgroundColor': 'white', 'borderRadius': '8px', 'border': '1px solid #ddd'}),
+                    html.P(
+                        "Each map shows the margin of victory for each election district. "
+                        "Darker colors indicate larger vote share differences between candidates.",
+                        className="text-muted small mt-3",
+                        style={'fontSize': '14px', 'textAlign': 'left', 'lineHeight': '1.5'}
+                    )
+                ], width=5, className="d-flex flex-column align-items-center justify-content-center")
+            ], align='center')
+        ], style={
+            'backgroundColor': '#f8f9fa', 
+            'padding': '35px 40px', 
+            'borderRadius': '12px',
+            'marginBottom': '30px',
+            'border': '1px solid #e9ecef'
+        }),
+        
+        # Maps Row
         dbc.Row([
             dbc.Col([
                 dcc.Graph(figure=pres_map, style={'height': '1025px'}, config={'scrollZoom': False})
@@ -134,14 +187,21 @@ def create_app_layout():
         # Header
         dbc.Row([
             dbc.Col([
-                html.H1("🗽 NYC Election Comparison Dashboard", className="text-center my-3"),
+                html.H1("Latest Political Landscape of New York City", className="text-center mt-3 mb-2"),
+                html.H4("Explore how different political groups and voter behaviors are distributed across New York City in recent elections", className="text-center text-muted fst-italic mb-3"),
             ])
         ]),
         
-        # Tabs
-        dbc.Tabs([
-            dbc.Tab(citywide_tab, label="Citywide Overview", tab_id="citywide"),
-            dbc.Tab(borough_tab, label="Borough Comparison", tab_id="borough"),
-        ], id="tabs", active_tab="citywide"),
+        # Tabs - styled as prominent pill buttons
+        dbc.Row([
+            dbc.Col([
+                dbc.Tabs([
+                    dbc.Tab(citywide_tab, label="Citywide Overview", tab_id="citywide", 
+                            tab_style={"fontSize": "18px", "fontWeight": "500"}),
+                    dbc.Tab(borough_tab, label="Borough Comparison", tab_id="borough",
+                            tab_style={"fontSize": "18px", "fontWeight": "500"}),
+                ], id="tabs", active_tab="citywide", className="nav-pills justify-content-center"),
+            ], width="auto", className="mx-auto")
+        ], className="bg-light py-3 mb-3 rounded"),
         
     ], fluid=True)

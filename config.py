@@ -12,8 +12,8 @@ BOROUGH_CONFIG = {
 }
 
 # NYC center for citywide view
-NYC_CENTER = {'lat': 40.628, 'lon': -73.95}
-NYC_ZOOM = 9.5
+NYC_CENTER = {'lat': 40.628, 'lon': -73.80}
+NYC_ZOOM = 9
 
 # Candidate configurations
 MAYORAL_CANDIDATES = ['Zohran Mamdani', 'Andrew Cuomo', 'Curtis Sliwa']
