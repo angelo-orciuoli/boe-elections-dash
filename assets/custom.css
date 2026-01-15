@@ -1,0 +1,30 @@
+/* Custom tab styling to override Bootstrap Flatly theme nav-pills defaults */
+/* Using high specificity selectors to override the theme */
+
+/* Inactive tab - dark text matching headers */
+.container-fluid .nav-pills .nav-item .nav-link,
+.nav-pills .nav-link {
+    color: #2c3e50 !important;
+    background-color: transparent !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    padding: 10px 24px !important;
+    border-radius: 20px !important;
+    transition: background-color 0.2s ease !important;
+}
+
+/* Hover effect on inactive tabs */
+.container-fluid .nav-pills .nav-item .nav-link:hover,
+.nav-pills .nav-link:hover {
+    background-color: #d8d8d8 !important;
+    color: #2c3e50 !important;
+}
+
+/* Active tab - light grey pill button */
+.container-fluid .nav-pills .nav-item .nav-link.active,
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #2c3e50 !important;
+    background-color: #e8e8e8 !important;
+    border-radius: 20px !important;
+}

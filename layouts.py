@@ -196,10 +196,12 @@ def create_app_layout():
         dbc.Row([
             dbc.Col([
                 dbc.Tabs([
-                    dbc.Tab(citywide_tab, label="Citywide Overview", tab_id="citywide", 
-                            tab_style={"fontSize": "18px", "fontWeight": "500"}),
+                    dbc.Tab(citywide_tab, label="Overview", tab_id="citywide", 
+                            tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50"},
+                            active_tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50", "backgroundColor": "#e8e8e8", "borderRadius": "20px"}),
                     dbc.Tab(borough_tab, label="Borough Comparison", tab_id="borough",
-                            tab_style={"fontSize": "18px", "fontWeight": "500"}),
+                            tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50"},
+                            active_tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50", "backgroundColor": "#e8e8e8", "borderRadius": "20px"}),
                 ], id="tabs", active_tab="citywide", className="nav-pills justify-content-center"),
             ], width="auto", className="mx-auto")
         ], className="bg-light py-3 mb-3 rounded"),

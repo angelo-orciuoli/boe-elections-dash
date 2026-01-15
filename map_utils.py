@@ -369,7 +369,7 @@ def create_borough_map(gdf, county_code):
     fig.update_layout(
         showlegend=False,
         margin=dict(l=0, r=0, t=40, b=0),
-        title=dict(text=f"<b>{config['name']}</b>", x=0.5, xanchor='center', font=dict(size=16, family='system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'))
+        title=dict(text=f"{config['name']}", x=0.5, xanchor='center', yanchor='middle', font=dict(size=28, family='system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif'))
     )
     
     # Custom hovertemplate
