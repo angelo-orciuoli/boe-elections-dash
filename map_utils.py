@@ -7,7 +7,6 @@ import json
 import geopandas as gpd
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
 from config import (
     BOROUGH_CONFIG, NYC_CENTER, NYC_ZOOM,
@@ -16,41 +15,66 @@ from config import (
 from data_cleaner import ElectionDataCleaner
 
 
-# Bivariate choropleth color scheme
+# 3x3 Bivariate choropleth color scheme (9 categories)
+# Grid layout: rows = Mamdani (Low/Med/High), cols = Trump (Low/Med/High)
 BIVARIATE_COLORS = {
-    'High M / High T': '#984ea3',  # Purple - Crossover/Populist
-    'High M / Low T': '#377eb8',   # Blue - Mamdani Base
-    'Low M / High T': '#e41a1c',   # Red - Trump Base
-    'Low M / Low T': '#d9d9d9'     # Grey - Disengaged/Moderate
+    # Low Mamdani row (bottom)
+    'Low M / Low T': '#e8e8e8',      # Light Gray - Disengaged
+    'Low M / Med T': '#d48a8a',      # Light Red - Lean Trump
+    'Low M / High T': '#b33232',     # Deep Red - Trump Base
+    # Medium Mamdani row (middle)
+    'Med M / Low T': '#97b0c4',      # Sky Blue - Lean Mamdani
+    'Med M / Med T': '#a88a9e',      # Muted Purple - Balanced
+    'Med M / High T': '#823055',     # Wine - Trump-leaning crossover
+    # High Mamdani row (top)
+    'High M / Low T': '#4885c1',     # Strong Blue - Mamdani Base
+    'High M / Med T': '#7078a3',     # Slate Blue - Mamdani-leaning crossover
+    'High M / High T': '#4c2c58'     # Deep Purple - Strong Crossover
 }
 
-# Category order for consistent legend display
-BIVARIATE_CATEGORY_ORDER = ['High M / High T', 'High M / Low T', 'Low M / High T', 'Low M / Low T']
+# Category order for consistent legend display (bottom-left to top-right)
+BIVARIATE_CATEGORY_ORDER = [
+    'Low M / Low T', 'Low M / Med T', 'Low M / High T',
+    'Med M / Low T', 'Med M / Med T', 'Med M / High T',
+    'High M / Low T', 'High M / Med T', 'High M / High T'
+]
 
 
-def assign_bivariate_category(mamdani_pct, trump_pct, threshold=50.0):
+def assign_bivariate_category(mamdani_pct, trump_pct):
     """
-    Assign a bivariate category based on vote share thresholds.
+    Assign a 3x3 bivariate category based on NYC-specific thresholds.
+    
+    Uses asymmetric thresholds to reflect NYC's political distribution:
+    - Mamdani: Low (0-35%), Medium (35-55%), High (55-100%)
+    - Trump: Low (0-20%), Medium (20-40%), High (40-100%)
     
     Args:
         mamdani_pct: Mamdani vote share percentage (0-100)
         trump_pct: Trump vote share percentage (0-100)
-        threshold: Threshold for high/low classification (default 50%)
     
     Returns:
-        Category string for the 2x2 bivariate classification
+        Category string for the 3x3 bivariate classification
     """
     if pd.isna(mamdani_pct) or pd.isna(trump_pct):
         return 'Low M / Low T'  # Default for missing data
     
-    if mamdani_pct > threshold and trump_pct > threshold:
-        return 'High M / High T'  # Purple - Crossover
-    elif mamdani_pct > threshold and trump_pct <= threshold:
-        return 'High M / Low T'   # Blue - Mamdani Base
-    elif mamdani_pct <= threshold and trump_pct > threshold:
-        return 'Low M / High T'   # Red - Trump Base
+    # Classify Mamdani (Low 0-35%, Med 35-55%, High 55-100%)
+    if mamdani_pct <= 35:
+        m_level = 'Low M'
+    elif mamdani_pct <= 55:
+        m_level = 'Med M'
     else:
-        return 'Low M / Low T'    # Grey - Disengaged
+        m_level = 'High M'
+    
+    # Classify Trump (Low 0-20%, Med 20-40%, High 40-100%)
+    if trump_pct <= 20:
+        t_level = 'Low T'
+    elif trump_pct <= 40:
+        t_level = 'Med T'
+    else:
+        t_level = 'High T'
+    
+    return f'{m_level} / {t_level}'
 
 
 def load_and_merge_data():
@@ -139,7 +163,6 @@ def create_citywide_comparison_map(gdf, election_type):
     if election_type == 'mayoral':
         col_name = 'mayor_diff'
         title = 'Zohran Mamdani vs Andrew Cuomo'
-        colorbar_title = '← Andrew Cuomo | Zohran Mamdani →'
         hover_labels = {
             'zohran_mamdani_pct': 'Mamdani %',
             'andrew_cuomo_pct': 'Cuomo %',
@@ -156,7 +179,6 @@ def create_citywide_comparison_map(gdf, election_type):
     else:  # presidential
         col_name = 'pres_diff'
         title = 'Kamala Harris vs Donald Trump'
-        colorbar_title = '← Donald Trump | Kamala Harris →'
         hover_labels = {
             'harris_pct': 'Harris %',
             'trump_pct': 'Trump %',
@@ -220,21 +242,41 @@ def create_citywide_comparison_map(gdf, election_type):
             f'<span style="color:#2166AC; font-size:16px;">●</span> Kamala Harris     {harris_votes:>10,}    {harris_pct:>5.1f}%<br>'
             f'<span style="color:#B2182B; font-size:16px;">●</span> Donald Trump      {trump_votes:>10,}    {trump_pct:>5.1f}%'
         )
+    # Determine candidate labels for colorbar based on election type
+    if election_type == 'mayoral':
+        left_candidate = 'Cuomo'
+        right_candidate = 'Mamdani'
+    else:
+        left_candidate = 'Trump'
+        right_candidate = 'Harris'
     
     fig.update_layout(
-        margin=dict(l=0, r=0, t=50, b=20),
+        margin=dict(l=0, r=0, t=50, b=80),  # Increased bottom margin for colorbar
         title=dict(
             text=f"<b>{title}</b>",
             x=0.5,
             xanchor='center',
             font=dict(size=18)
         ),
-        coloraxis_showscale=False,  # Hide the colorbar
+        coloraxis_showscale=True,  # Show the colorbar
+        coloraxis_colorbar=dict(
+            orientation='h',
+            x=0.5,
+            y=0.085,
+            xanchor='center',
+            yanchor='top',
+            len=0.7,  # Shortened to make room for side labels
+            thickness=15,
+            title=None,
+            tickvals=[],  # No tick marks
+            ticks=''
+        ),
         map=dict(
             bounds=dict(west=-74.3, east=-73.7, south=40.45, north=40.95)
         ),
-        # Custom legend using a single annotation (unified card)
+        # Custom legend and colorbar labels using annotations
         annotations=[
+            # Vote totals legend (top-left)
             dict(
                 x=0.02, y=0.98,
                 xref='paper', yref='paper',
@@ -247,22 +289,32 @@ def create_citywide_comparison_map(gdf, election_type):
                 borderwidth=1,
                 borderpad=12,
                 xanchor='left', yanchor='top'
+            ),
+            # Left candidate label (left of colorbar)
+            dict(
+                x=0.15, y=0.07,
+                xref='paper', yref='paper',
+                text=f'<b>{left_candidate}</b>',
+                showarrow=False,
+                font=dict(size=16, color='black'), 
+                xanchor='right', yanchor='middle'
+            ),
+            # Right candidate label (right of colorbar)
+            dict(
+                x=0.855, y=0.069,
+                xref='paper', yref='paper',
+                text=f'<b>{right_candidate}</b>',
+                showarrow=False,
+                font=dict(size=15.5, color='black'), 
+                xanchor='left', yanchor='middle'
             )
         ]
     )
-    
     # Custom hovertemplate to hide index
     if election_type == 'mayoral':
-        # Get Sliwa percentage for hover
-        sliwa_pct_col = 'curtis_sliwa_pct' if 'curtis_sliwa_pct' in gdf.columns else None
-        if sliwa_pct_col:
-            fig.update_traces(
-                hovertemplate='<b>District %{customdata[0]}</b><br>Mamdani: %{customdata[1]:.1f}%<br>Cuomo: %{customdata[2]:.1f}%<br>Sliwa: %{customdata[3]:.1f}%<extra></extra>'
-            )
-        else:
-            fig.update_traces(
-                hovertemplate='<b>District %{customdata[0]}</b><br>Mamdani: %{customdata[1]:.1f}%<br>Cuomo: %{customdata[2]:.1f}%<extra></extra>'
-            )
+        fig.update_traces(
+            hovertemplate='<b>District %{customdata[0]}</b><br>Mamdani: %{customdata[1]:.1f}%<br>Cuomo: %{customdata[2]:.1f}%<br>Sliwa: %{customdata[3]:.1f}%<extra></extra>'
+        )
     else:
         fig.update_traces(
             hovertemplate='<b>District %{customdata[0]}</b><br>Harris: %{customdata[1]:.1f}%<br>Trump: %{customdata[2]:.1f}%<extra></extra>'
@@ -312,67 +364,12 @@ def create_borough_map(gdf, county_code):
         opacity=0.8
     )
     
-    # Hide the default legend (we'll create a custom 2x2 grid)
+    # Hide the default legend (using header legend instead)
     fig.update_layout(
         showlegend=False,
         margin=dict(l=0, r=0, t=40, b=0),
         title=dict(text=f"<b>{config['name']}</b>", x=0.5, xanchor='center', font=dict(size=16))
     )
-    
-    # Add custom 2x2 bivariate legend using shapes and annotations
-    # Legend position (paper coordinates)
-    lx, ly = 0.02, 0.95  # Top-left corner
-    box_size = 0.06  # Size of each color box
-    gap = 0.005  # Gap between boxes
-    
-    # Draw 4 colored boxes in 2x2 grid
-    # Row 1 (High M): [High M/Low T (Blue), High M/High T (Purple)]
-    # Row 2 (Low M): [Low M/Low T (Grey), Low M/High T (Red)]
-    legend_layout = [
-        # (x_offset, y_offset, category)
-        (0, box_size + gap, 'High M / Low T'),       # Top-left: Blue
-        (box_size + gap, box_size + gap, 'High M / High T'),  # Top-right: Purple
-        (0, 0, 'Low M / Low T'),                     # Bottom-left: Grey
-        (box_size + gap, 0, 'Low M / High T'),       # Bottom-right: Red
-    ]
-    
-    shapes = []
-    for x_off, y_off, category in legend_layout:
-        shapes.append(dict(
-            type='rect',
-            xref='paper', yref='paper',
-            x0=lx + x_off, y0=ly - box_size - y_off + box_size,
-            x1=lx + x_off + box_size, y1=ly - y_off + box_size,
-            fillcolor=BIVARIATE_COLORS[category],
-            line=dict(color='white', width=1)
-        ))
-    
-    # Add axis labels for the legend
-    annotations = [
-        # Y-axis label (Mamdani)
-        dict(
-            x=lx - 0.01, y=ly + box_size/2,
-            xref='paper', yref='paper',
-            text='<b>M</b>', font=dict(size=10, color='#333'),
-            showarrow=False, xanchor='right', yanchor='middle'
-        ),
-        # X-axis label (Trump)
-        dict(
-            x=lx + box_size + gap/2, y=ly - box_size - gap - 0.02,
-            xref='paper', yref='paper',
-            text='<b>T →</b>', font=dict(size=10, color='#333'),
-            showarrow=False, xanchor='center', yanchor='top'
-        ),
-        # Legend title
-        dict(
-            x=lx + box_size + gap/2, y=ly + box_size + gap + 0.03,
-            xref='paper', yref='paper',
-            text='<b>Mamdani vs Trump</b>', font=dict(size=9, color='#333'),
-            showarrow=False, xanchor='center', yanchor='bottom'
-        )
-    ]
-    
-    fig.update_layout(shapes=shapes, annotations=annotations)
     
     # Custom hovertemplate
     fig.update_traces(

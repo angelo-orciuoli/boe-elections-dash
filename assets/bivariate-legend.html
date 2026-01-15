@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bivariate Legend - Large Format</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* Recalculated container width: (195*3) + (8*2) + y-axis space */
+            width: 720px; 
+        }
+
+        .grid-row-container {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        /* Vertical Axis Styling */
+        .y-axis-container {
+            display: flex;
+            align-items: flex-end;
+            margin-right: 20px;
+            /* Grid height: (95*3) + (8*2) = 301px */
+            height: 301px; 
+        }
+
+        .y-label-text {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            font-size: 15px;
+            font-weight: 900;
+            color: #333;
+            letter-spacing: 1px;
+            margin-right: 15px;
+            text-transform: uppercase;
+        }
+
+        .y-arrow {
+            width: 6px;
+            height: 100%;
+            background-image: linear-gradient(to top, #e8e8e8, #4885c1);
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .y-arrow::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+            border-bottom: 20px solid #4885c1;
+        }
+
+        /* Grid Styling - Larger Cells */
+        .grid-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cell {
+            width: 195px; /* User Requested */
+            height: 95px; /* User Requested */
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+
+        .label-cell { font-weight: 800; text-transform: uppercase; opacity: 0.85; }
+        .value-cell { font-weight: 700; }
+        
+        hr {
+            width: 100%;
+            border: 0;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            margin: 5px 0;
+        }
+
+        .light-cell hr { border-top: 2px solid rgba(0,0,0,0.15); }
+
+        /* Horizontal Axis Styling */
+        .x-axis-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            /* Offset to align with the first cell: y-label-text(15) + margin(15) + arrow(6) + gap(20) */
+            margin-left: 62px; 
+            width: 601px; /* Matches 3 cells + 2 gaps */
+        }
+
+        .x-arrow {
+            width: 100%;
+            height: 6px;
+            background-image: linear-gradient(to right, #e8e8e8, #b33232);
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .x-arrow::after {
+            content: '';
+            position: absolute;
+            top: -7px;
+            right: -12px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 20px solid #b33232;
+        }
+
+        .x-label-text {
+            font-size: 15px;
+            font-weight: 900;
+            color: #333;
+            letter-spacing: 1px;
+            margin-top: 18px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chart-container">
+        
+        <div class="grid-row-container">
+            <div class="y-axis-container">
+                <div class="y-label-text">Mamdani District Vote Share </div>
+                <div class="y-arrow"></div>
+            </div>
+
+            <div class="grid-wrapper">
+                <div class="row">
+                    <div class="cell" style="background-color: #4885c1; color: white;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">55-100%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">0-20%</span></div>
+                    </div>
+                    <div class="cell" style="background-color: #7078a3; color: white;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">55-100%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">20-40%</span></div>
+                    </div>
+                    <div class="cell" style="background-color: #4c2c58; color: white;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">55-100%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">40-100%</span></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="cell light-cell" style="background-color: #97b0c4; color: #1a1a1a;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">35-55%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">0-20%</span></div>
+                    </div>
+                    <div class="cell light-cell" style="background-color: #a88a9e; color: #1a1a1a;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">35-55%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">20-40%</span></div>
+                    </div>
+                    <div class="cell" style="background-color: #823055; color: white;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">35-55%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">40-100%</span></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="cell light-cell" style="background-color: #e8e8e8; color: #444;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">0-35%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">0-20%</span></div>
+                    </div>
+                    <div class="cell light-cell" style="background-color: #d48a8a; color: #1a1a1a;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">0-35%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">20-40%</span></div>
+                    </div>
+                    <div class="cell" style="background-color: #b33232; color: white;">
+                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">0-35%</span></div>
+                        <hr>
+                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">40-100%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="x-axis-container">
+            <div class="x-arrow"></div>
+            <div class="x-label-text">Trump District Vote Share </div>
+        </div>
+    </div>
+
+</body>
+</html>

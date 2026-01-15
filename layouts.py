@@ -15,10 +15,10 @@ def create_citywide_tab(pres_map, mayor_map):
     return dbc.Container([
         dbc.Row([
             dbc.Col([
-                dcc.Graph(figure=pres_map, style={'height': '950px'}, config={'scrollZoom': False})
+                dcc.Graph(figure=pres_map, style={'height': '1025px'}, config={'scrollZoom': False})
             ], md=6),
             dbc.Col([
-                dcc.Graph(figure=mayor_map, style={'height': '950px'}, config={'scrollZoom': False})
+                dcc.Graph(figure=mayor_map, style={'height': '1025px'}, config={'scrollZoom': False})
             ], md=6)
         ]),
         html.Hr(),
@@ -30,57 +30,66 @@ def create_citywide_tab(pres_map, mayor_map):
 
 
 def create_borough_tab(borough_maps):
-    """Create the Borough Comparison tab content with bivariate choropleth maps."""
+    """Create the Borough Comparison tab content with 3x3 bivariate choropleth maps."""
     return dbc.Container([
-        # Header explaining bivariate scheme
-        dbc.Row([
-            dbc.Col([
-                html.P(
-                    "Mamdani (2025 Mayor) vs Trump (2024 President) — Bivariate Analysis",
-                    className="text-center text-muted mb-1"
-                ),
-                html.Div([
-                    html.Span("🟣 High Both ", style={'color': '#984ea3', 'fontWeight': 'bold'}),
-                    html.Span("🔵 High Mamdani ", style={'color': '#377eb8', 'fontWeight': 'bold'}),
-                    html.Span("🔴 High Trump ", style={'color': '#e41a1c', 'fontWeight': 'bold'}),
-                    html.Span("⬜ Low Both", style={'color': '#888', 'fontWeight': 'bold'})
-                ], className="text-center small")
-            ])
-        ]),
+        # Hero Section - Two-column layout with subtle background container
+        html.Div([
+            dbc.Row([
+                # Left Column: Title and Description
+                dbc.Col([
+                    html.H3(
+                        "Bivariate Analysis: Mamdani vs Trump Vote Share",
+                        className="fw-bold mb-4",
+                        style={'color': '#2c3e50'}
+                    ),
+                    dcc.Markdown('''
+                        - **The Goal:** Identify "anti-establishment" corridors where voters support both populist alternatives.
+                        - **The Data:** Comparing **Zohran Mamdani** (2025 Mayor) vs. **Donald Trump** (2024 President).
+                        - **The Method:** Using NYC Reality thresholds — **Trump High** (35%+), **Mamdani High** (55%+).
+                    ''', style={'fontSize': '16px', 'lineHeight': '1.8', 'color': '#444'})
+                ], width=7, className="d-flex flex-column justify-content-center pe-5"),
+                
+                # Right Column: Legend Image
+                dbc.Col([
+                    html.Img(
+                        src='/assets/bivariate-legend.png',
+                        style={'maxWidth': '100%', 'height': 'auto'}
+                    )
+                ], width=5, className="d-flex align-items-center justify-content-center")
+            ], align='center')
+        ], style={
+            'backgroundColor': '#f8f9fa', 
+            'padding': '35px 40px', 
+            'borderRadius': '12px',
+            'marginBottom': '30px',
+            'border': '1px solid #e9ecef'
+        }),
         
-        html.Hr(),
-        
-        # Row 1: Manhattan and Brooklyn (taller, narrower maps)
+        # Row 1: Manhattan, Brooklyn, Queens
         dbc.Row([
             dbc.Col(md=1),
             dbc.Col([
-                dcc.Graph(figure=borough_maps['New York'], style={'height': '550px'}, config={'scrollZoom': False})
-            ], md=5),
+                dcc.Graph(figure=borough_maps['New York'], style={'height': '600px'}, config={'scrollZoom': False})
+            ], md=3),
             dbc.Col([
-                dcc.Graph(figure=borough_maps['Kings'], style={'height': '550px'}, config={'scrollZoom': False})
-            ], md=5),
-            dbc.Col(md=1)
-        ], className="mb-2"),
-        
-        # Row 2: Queens and Bronx
-        dbc.Row([
-            dbc.Col(md=1),
-            dbc.Col([
-                dcc.Graph(figure=borough_maps['Queens'], style={'height': '550px'}, config={'scrollZoom': False})
-            ], md=5),
-            dbc.Col([
-                dcc.Graph(figure=borough_maps['Bronx'], style={'height': '550px'}, config={'scrollZoom': False})
-            ], md=5),
-            dbc.Col(md=1)
-        ], className="mb-2"),
-        
-        # Row 3: Staten Island (centered, slightly smaller)
-        dbc.Row([
-            dbc.Col(md=4),
-            dbc.Col([
-                dcc.Graph(figure=borough_maps['Richmond'], style={'height': '500px'}, config={'scrollZoom': False})
+                dcc.Graph(figure=borough_maps['Kings'], style={'height': '600px'}, config={'scrollZoom': False})
             ], md=4),
-            dbc.Col(md=4)
+            dbc.Col([
+                dcc.Graph(figure=borough_maps['Queens'], style={'height': '600px'}, config={'scrollZoom': False})
+            ], md=4),
+            dbc.Col(md=2)
+        ], className="mb-2"),
+        
+        # Row 2: Bronx and Staten Island
+        dbc.Row([
+            dbc.Col(md=2),
+            dbc.Col([
+                dcc.Graph(figure=borough_maps['Bronx'], style={'height': '600px'}, config={'scrollZoom': False})
+            ], md=4),
+            dbc.Col([
+                dcc.Graph(figure=borough_maps['Richmond'], style={'height': '600px'}, config={'scrollZoom': False})
+            ], md=4),
+            dbc.Col(md=2)
         ]),
         
         # Footer
