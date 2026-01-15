@@ -54,8 +54,16 @@ def create_borough_tab(borough_maps):
                     html.Img(
                         src='/assets/bivariate-legend.png',
                         style={'maxWidth': '100%', 'height': 'auto'}
+                    ),
+                    html.P(
+                        "This is a bivariate key that maps the complex political dynamics of NYC districts "
+                        "by simultaneously comparing two metrics. The nine distinct color cells represent specific "
+                        "intersections of District Vote Share for Mamdani and Trump. Each cell defines a percent range, "
+                        "classifying the district support level of the candidates.",
+                        className="text-muted small mt-3",
+                        style={'fontSize': '16px', 'textAlign': 'left', 'lineHeight': '1.5'}
                     )
-                ], width=5, className="d-flex align-items-center justify-content-center")
+                ], width=5, className="d-flex flex-column align-items-center justify-content-center")
             ], align='center')
         ], style={
             'backgroundColor': '#f8f9fa', 
