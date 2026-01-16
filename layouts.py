@@ -30,31 +30,29 @@ def create_citywide_tab(pres_map, mayor_map):
                     ''', style={'fontSize': '16px', 'lineHeight': '1.8', 'color': '#444'})
                 ], width=7, className="d-flex flex-column justify-content-center pe-5"),
                 
-                # Right Column: Color Scale Explanation
+                # Right Column: Intro / Abstract / Essential Questions Placeholder
                 dbc.Col([
                     html.Div([
-                        html.Div([
-                            html.Span("🔵", style={'fontSize': '24px'}),
-                            html.Span(" Blue: Higher Democratic/Progressive vote share", 
-                                     style={'fontSize': '14px', 'color': '#2166AC', 'fontWeight': '500'})
-                        ], className="mb-2"),
-                        html.Div([
-                            html.Span("⚪", style={'fontSize': '24px'}),
-                            html.Span(" White/Neutral: Even split between candidates", 
-                                     style={'fontSize': '14px', 'color': '#666'})
-                        ], className="mb-2"),
-                        html.Div([
-                            html.Span("🔴", style={'fontSize': '24px'}),
-                            html.Span(" Red: Higher Republican/Opposition vote share", 
-                                     style={'fontSize': '14px', 'color': '#B2182B', 'fontWeight': '500'})
-                        ]),
-                    ], style={'padding': '20px', 'backgroundColor': 'white', 'borderRadius': '8px', 'border': '1px solid #ddd'}),
-                    html.P(
-                        "Each map shows the margin of victory for each election district. "
-                        "Darker colors indicate larger vote share differences between candidates.",
-                        className="text-muted small mt-3",
-                        style={'fontSize': '14px', 'textAlign': 'left', 'lineHeight': '1.5'}
-                    )
+                        html.P(
+                            "[ Your intro, abstract, or essential questions go here ]",
+                            style={
+                                'fontSize': '16px', 
+                                'color': '#666', 
+                                'fontStyle': 'italic',
+                                'textAlign': 'center',
+                                'margin': '0'
+                            }
+                        )
+                    ], style={
+                        'padding': '30px', 
+                        'backgroundColor': 'white', 
+                        'borderRadius': '8px', 
+                        'border': '2px dashed #ccc',
+                        'minHeight': '120px',
+                        'display': 'flex',
+                        'alignItems': 'center',
+                        'justifyContent': 'center'
+                    })
                 ], width=5, className="d-flex flex-column align-items-center justify-content-center")
             ], align='center')
         ], style={
@@ -187,8 +185,8 @@ def create_app_layout():
         # Header
         dbc.Row([
             dbc.Col([
-                html.H1("Latest Political Landscape of New York City", className="text-center mt-3 mb-2"),
-                html.H4("Explore how different political groups and voter behaviors are distributed across New York City in recent elections", className="text-center text-muted fst-italic mb-3"),
+                html.H1("Political Landscape of New York City", className="text-center mt-3 mb-2"),
+                html.H4("Exploring distribution of political groups and differences in voter behavior across New York City in recent elections", className="text-center text-muted fst-italic mb-3"),
             ])
         ]),
         
