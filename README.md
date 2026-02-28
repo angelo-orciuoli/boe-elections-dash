@@ -9,7 +9,7 @@ An interactive dashboard comparing election results across NYC boroughs. Visuali
 pip install -r requirements.txt
 
 # Run the Dash app
-python dash_app.py
+python3 dash_app.py
 ```
 
 Then open: http://127.0.0.1:8050
