@@ -135,8 +135,26 @@ def create_app_layout():
         # Header
         dbc.Row([
             dbc.Col([
-                html.H1("Investigating NYC’s Ideological Paradox", className="text-center mt-3 mb-2")
+                html.H1("Investigating NYC’s Ideological Paradox", 
+                        className="text-center mt-4 mb-2", 
+                        style={"fontWeight": "bold", "color": "#2c3e50"})
             ])
+        ]),
+
+        # NEW: Description Container
+        dbc.Row([
+            dbc.Col([
+                html.P([
+                    "Your description goes here. Use this space to explain the 'paradox'—",
+                    "perhaps how NYC's deep-blue presidential leanings contrast with its ",
+                    "more nuanced local mayoral voting patterns.",
+                    "perhaps how NYC's deep-blue presidential leanings contrast with its ",
+                    "perhaps how NYC's deep-blue presidential leanings contrast with its ",
+                    "perhaps how NYC's deep-blue presidential leanings contrast with its "
+                ], 
+                className="lead text-center mx-auto mb-4",
+                style={"color": "#5a67d8", "lineHeight": "1.6"})
+            ], width=12)
         ]),
         
         # Tabs - styled as prominent pill buttons
