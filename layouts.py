@@ -145,12 +145,7 @@ def create_app_layout():
         dbc.Row([
             dbc.Col([
                 html.P([
-                    "Your description goes here. Use this space to explain the 'paradox'—",
-                    "perhaps how NYC's deep-blue presidential leanings contrast with its ",
-                    "more nuanced local mayoral voting patterns.",
-                    "perhaps how NYC's deep-blue presidential leanings contrast with its ",
-                    "perhaps how NYC's deep-blue presidential leanings contrast with its ",
-                    "perhaps how NYC's deep-blue presidential leanings contrast with its "
+                    "Following Zohran Mamdani’s 2025 mayoral victory, post-election data revealed a striking trend: a notable portion of his winning coalition consisted of voters who had backed Donald Trump just one year prior. This dashboard visualizes the contrast between the two elections to identify the districts where this ideological crossover appears."
                 ], 
                 className="lead text-center mx-auto mb-4",
                 style={"color": "#5a67d8", "lineHeight": "1.6"})
