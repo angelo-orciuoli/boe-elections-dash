@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +16,23 @@
             background-color: #ffffff;
         }
 
+        .legend-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            width: 100%;
+
+        }
+
         .chart-container {
             display: flex;
             flex-direction: column;
             position: relative;
             /* Recalculated container width: (195*3) + (8*2) + y-axis space */
-            width: 720px; 
+            width: 720px;
         }
 
         .grid-row-container {
@@ -34,7 +46,7 @@
             align-items: flex-end;
             margin-right: 20px;
             /* Grid height: (95*3) + (8*2) = 301px */
-            height: 301px; 
+            height: 301px;
         }
 
         .y-label-text {
@@ -81,8 +93,8 @@
         }
 
         .cell {
-            width: 195px; /* User Requested */
-            height: 95px; /* User Requested */
+            width: 195px;
+            height: 95px;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -90,7 +102,7 @@
             align-items: center;
             padding: 15px;
             box-sizing: border-box;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .data-row {
@@ -101,17 +113,26 @@
             margin: 3px 0;
         }
 
-        .label-cell { font-weight: 800; text-transform: uppercase; opacity: 0.85; }
-        .value-cell { font-weight: 700; }
-        
+        .label-cell {
+            font-weight: 800;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .value-cell {
+            font-weight: 700;
+        }
+
         hr {
             width: 100%;
             border: 0;
-            border-top: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
             margin: 5px 0;
         }
 
-        .light-cell hr { border-top: 2px solid rgba(0,0,0,0.15); }
+        .light-cell hr {
+            border-top: 2px solid rgba(0, 0, 0, 0.15);
+        }
 
         /* Horizontal Axis Styling */
         .x-axis-container {
@@ -119,8 +140,9 @@
             display: flex;
             flex-direction: column;
             /* Offset to align with the first cell: y-label-text(15) + margin(15) + arrow(6) + gap(20) */
-            margin-left: 62px; 
-            width: 601px; /* Matches 3 cells + 2 gaps */
+            margin-left: 62px;
+            width: 601px;
+            /* Matches 3 cells + 2 gaps */
         }
 
         .x-arrow {
@@ -152,80 +174,159 @@
             text-transform: uppercase;
             text-align: center;
         }
+
+        .main-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .instructions-container {
+            max-width: 480px;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .instructions-container ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .instructions-container li {
+            margin-bottom: 12px;
+        }
+
+        .instructions-container li:last-child {
+            margin-bottom: 0;
+        }
+
+        .instructions-container ul ul {
+            margin-top: 12px;
+            padding-left: 20px;
+        }
+
+        .instructions-container ul ul li {
+            margin-bottom: 12px;
+        }
     </style>
 </head>
+
 <body>
 
-    <div class="chart-container">
-        
-        <div class="grid-row-container">
-            <div class="y-axis-container">
-                <div class="y-label-text">Mamdani District Vote Share </div>
-                <div class="y-arrow"></div>
+    <div class="main-wrapper">
+        <div class="chart-container">
+            <div class="legend-title">Mamdani and Trump Vote Shares by District</div>
+
+            <div class="grid-row-container">
+                <div class="y-axis-container">
+                    <div class="y-label-text">Mamdani District Vote Share </div>
+                    <div class="y-arrow"></div>
+                </div>
+
+                <div class="grid-wrapper">
+                    <div class="row">
+                        <div class="cell" style="background-color: #4885c1; color: white;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">55-100%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">0-20%</span>
+                            </div>
+                        </div>
+                        <div class="cell" style="background-color: #7078a3; color: white;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">55-100%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">20-40%</span></div>
+                        </div>
+                        <div class="cell" style="background-color: #4c2c58; color: white;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">55-100%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">40-100%</span></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell light-cell" style="background-color: #97b0c4; color: #1a1a1a;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">35-55%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">0-20%</span>
+                            </div>
+                        </div>
+                        <div class="cell light-cell" style="background-color: #a88a9e; color: #1a1a1a;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">35-55%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">20-40%</span></div>
+                        </div>
+                        <div class="cell" style="background-color: #823055; color: white;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">35-55%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">40-100%</span></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell light-cell" style="background-color: #e8e8e8; color: #444;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">0-35%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">0-20%</span>
+                            </div>
+                        </div>
+                        <div class="cell light-cell" style="background-color: #d48a8a; color: #1a1a1a;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">0-35%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">20-40%</span></div>
+                        </div>
+                        <div class="cell" style="background-color: #b33232; color: white;">
+                            <div class="data-row"><span class="label-cell">Mamdani</span><span
+                                    class="value-cell">0-35%</span></div>
+                            <hr>
+                            <div class="data-row"><span class="label-cell">Trump</span><span
+                                    class="value-cell">40-100%</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid-wrapper">
-                <div class="row">
-                    <div class="cell" style="background-color: #4885c1; color: white;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">55-100%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">0-20%</span></div>
-                    </div>
-                    <div class="cell" style="background-color: #7078a3; color: white;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">55-100%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">20-40%</span></div>
-                    </div>
-                    <div class="cell" style="background-color: #4c2c58; color: white;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">55-100%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">40-100%</span></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="cell light-cell" style="background-color: #97b0c4; color: #1a1a1a;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">35-55%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">0-20%</span></div>
-                    </div>
-                    <div class="cell light-cell" style="background-color: #a88a9e; color: #1a1a1a;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">35-55%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">20-40%</span></div>
-                    </div>
-                    <div class="cell" style="background-color: #823055; color: white;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">35-55%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">40-100%</span></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="cell light-cell" style="background-color: #e8e8e8; color: #444;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">0-35%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">0-20%</span></div>
-                    </div>
-                    <div class="cell light-cell" style="background-color: #d48a8a; color: #1a1a1a;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">0-35%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">20-40%</span></div>
-                    </div>
-                    <div class="cell" style="background-color: #b33232; color: white;">
-                        <div class="data-row"><span class="label-cell">Mamdani</span><span class="value-cell">0-35%</span></div>
-                        <hr>
-                        <div class="data-row"><span class="label-cell">Trump</span><span class="value-cell">40-100%</span></div>
-                    </div>
-                </div>
+            <div class="x-axis-container">
+                <div class="x-arrow"></div>
+                <div class="x-label-text">Trump District Vote Share </div>
             </div>
         </div>
 
-        <div class="x-axis-container">
-            <div class="x-arrow"></div>
-            <div class="x-label-text">Trump District Vote Share </div>
+        <div class="instructions-container">
+            <ul>
+                <li>Every district on the map is assigned one of these nine colors based on the vote share for both
+                    candidates</li>
+                <li>The two percentage values represent the total vote share for that candidate in a given district
+                    <ul>
+                        <li>Solid Blue (Top-Left): Mamdani won 55-100% of all votes in these districts,
+                            and Trump won no more than 20% of the vote</li>
+                        <li>Solid Red (Bottom-Right): Trump won 40-100% of all votes in these districts,
+                            and Mamdani won no more than 35% of the vote</li>
+                        <li><b>Dark Purple (Top-Right): Mamdani won over 55% of the vote and
+                            Trump won over 40% of the vote in these districts</b></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
 </body>
+
 </html>
