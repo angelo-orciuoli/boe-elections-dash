@@ -23,7 +23,6 @@ boe-elections-dash/
 ├── map_utils.py         # Map creation functions (choropleth maps)
 ├── layouts.py           # UI layout components (tabs, grids)
 ├── data_cleaner.py      # Election data loading and cleaning
-├── streamlit_app.py     # Alternative Streamlit version of the app
 ├── requirements.txt     # Python dependencies
 ├── data/                # Election data files
 │   ├── citywide_mayor_citywide.csv
