@@ -185,8 +185,7 @@ def create_app_layout():
         # Header
         dbc.Row([
             dbc.Col([
-                html.H1("Political Landscape of New York City", className="text-center mt-3 mb-2"),
-                html.H4("Exploring distribution of political groups and differences in voter behavior across New York City in recent elections", className="text-center text-muted fst-italic mb-3"),
+                html.H1("The \"Anti-Establishment\" Corridor: Mapping NYC's Great Realignment", className="text-center mt-3 mb-2")
             ])
         ]),
         
