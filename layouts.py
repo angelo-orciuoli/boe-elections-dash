@@ -185,7 +185,7 @@ def create_app_layout():
         # Header
         dbc.Row([
             dbc.Col([
-                html.H1("The \"Anti-Establishment\" Corridor: Mapping NYC's Great Realignment", className="text-center mt-3 mb-2")
+                html.H1("Investigating NYC’s Ideological Paradox", className="text-center mt-3 mb-2")
             ])
         ]),
         
