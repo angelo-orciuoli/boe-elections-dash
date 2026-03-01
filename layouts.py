@@ -33,47 +33,6 @@ def create_citywide_tab(pres_map, mayor_map):
 def create_borough_tab(borough_maps):
     """Create the Borough Comparison tab content with 3x3 bivariate choropleth maps."""
     return dbc.Container([
-        # Hero Section - Two-column layout with subtle background container
-        html.Div([
-            dbc.Row([
-                # Left Column: Title and Description
-                dbc.Col([
-                    html.H3(
-                        "Bivariate Analysis: Mamdani vs Trump Vote Share",
-                        className="fw-bold mb-4",
-                        style={'color': '#2c3e50'}
-                    ),
-                    dcc.Markdown('''
-                        - **The Goal:** Identify "anti-establishment" corridors where voters support both populist alternatives.
-                        - **The Data:** Comparing **Zohran Mamdani** (2025 Mayor) vs. **Donald Trump** (2024 President).
-                        - **The Method:** Using NYC Reality thresholds — **Trump High** (35%+), **Mamdani High** (55%+).
-                    ''', style={'fontSize': '16px', 'lineHeight': '1.8', 'color': '#444'})
-                ], width=7, className="d-flex flex-column justify-content-center pe-5"),
-                
-                # Right Column: Legend Image
-                dbc.Col([
-                    html.Img(
-                        src='/assets/bivariate-legend.png',
-                        style={'maxWidth': '100%', 'height': 'auto'}
-                    ),
-                    html.P(
-                        "This is a bivariate key that maps the complex political dynamics of NYC districts "
-                        "by simultaneously comparing two metrics. The nine distinct color cells represent specific "
-                        "intersections of District Vote Share for Mamdani and Trump. Each cell defines a percent range, "
-                        "classifying the district support level of the candidates.",
-                        className="text-muted small mt-3",
-                        style={'fontSize': '16px', 'textAlign': 'left', 'lineHeight': '1.5'}
-                    )
-                ], width=5, className="d-flex flex-column align-items-center justify-content-center")
-            ], align='center')
-        ], style={
-            'backgroundColor': '#f8f9fa', 
-            'padding': '35px 40px', 
-            'borderRadius': '12px',
-            'marginBottom': '30px',
-            'border': '1px solid #e9ecef'
-        }),
-        
         # Row 1: Manhattan, Brooklyn, Queens
         dbc.Row([
             dbc.Col(md=1),
