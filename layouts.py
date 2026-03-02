@@ -33,6 +33,16 @@ def create_citywide_tab(pres_map, mayor_map):
 def create_borough_tab(borough_maps):
     """Create the Borough Comparison tab content with 3x3 bivariate choropleth maps."""
     return dbc.Container([
+        # Legend Section
+        dbc.Row([
+            dbc.Col([
+                html.Img(
+                    src='/assets/bivariate-legend.png',
+                    style={'maxWidth': '1100px', 'width': '80%', 'height': 'auto', 'display': 'block', 'margin': '0 auto'}
+                )
+            ], width=12, className="text-center mb-4 mt-3")
+        ]),
+        
         # Row 1: Manhattan, Brooklyn, Queens
         dbc.Row([
             dbc.Col(md=1),
@@ -72,16 +82,15 @@ def create_borough_tab(borough_maps):
 
 def create_app_layout():
     """Create and return the complete app layout."""
-    # Load data once
-    gdf = load_and_merge_data()
+    gdf = load_and_merge_data() # Load data
     
-    # Create all borough maps
+    # Create borough maps
     borough_maps = {
         county: create_borough_map(gdf, county)
         for county in BOROUGH_CONFIG.keys()
     }
     
-    # Create citywide comparison maps
+    # Create comparison maps
     pres_comparison_map = create_citywide_comparison_map(gdf, 'presidential')
     mayor_comparison_map = create_citywide_comparison_map(gdf, 'mayoral')
     
@@ -100,7 +109,7 @@ def create_app_layout():
             ])
         ]),
 
-        # NEW: Description Container
+        # Description Container
         dbc.Row([
             dbc.Col([
                 html.P([
@@ -111,7 +120,7 @@ def create_app_layout():
             ], width=12)
         ]),
         
-        # Tabs - styled as prominent pill buttons
+        # Tabs - styled as pill buttons
         dbc.Row([
             dbc.Col([
                 dbc.Tabs([
