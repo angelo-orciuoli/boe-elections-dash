@@ -24,8 +24,8 @@ def create_citywide_tab(pres_map, mayor_map):
         ]),
         html.Hr(),
         html.P(
-            "Red = Higher support for first candidate | Blue = Higher support for second candidate",
-            className="text-center text-muted small"
+            "",
+            className="text-center text-muted small mt-3 mb-2"
         )
     ], fluid=True)
 
@@ -73,10 +73,9 @@ def create_borough_tab(borough_maps):
         # Footer
         html.Hr(),
         html.P(
-            "Data: NYC Board of Elections | Hover over districts for details",
-            className="text-center text-muted small"
+            "",
+            className="text-center text-muted small mt-3 mb-2"
         )
-        
     ], fluid=True)
 
 
