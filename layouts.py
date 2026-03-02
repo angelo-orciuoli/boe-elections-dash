@@ -113,10 +113,10 @@ def create_app_layout():
         dbc.Row([
             dbc.Col([
                 html.P([
-                    "Following Zohran Mamdani’s 2025 mayoral victory, post-election data revealed a striking trend: a notable portion of his winning coalition consisted of voters who had backed Donald Trump just one year prior. This dashboard visualizes the contrast between the two elections to identify the districts where this ideological crossover appears."
+                    "Following Zohran Mamdani’s 2025 mayoral victory, post-election data revealed a striking trend: a notable portion of his winning coalition consisted of voters who had backed Donald Trump just one year prior. This dashboard utilizes interactive mapping to investigate the geographic and demographic footprints of this ideological crossover. The interface is organized into two primary views: a side-by-side comparison of NYC election results, and a specialized \"Borough Comparison\" tab that maps the specific intersection of these two voter bases."
                 ], 
-                className="lead text-center mx-auto mb-4",
-                style={"color": "#5a67d8", "lineHeight": "1.6"})
+                className="lead text-left mx-5 mb-4",
+                style={"color": "#2c3e50", "lineHeight": "1.6"})
             ], width=12)
         ]),
         
@@ -125,13 +125,13 @@ def create_app_layout():
             dbc.Col([
                 dbc.Tabs([
                     dbc.Tab(citywide_tab, label="NYC Election Results", tab_id="citywide", 
-                            tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50"},
-                            active_tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50", "backgroundColor": "#e8e8e8", "borderRadius": "20px"}),
-                    dbc.Tab(borough_tab, label="Contrast of Election Results", tab_id="borough",
-                            tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50"},
-                            active_tab_style={"fontSize": "18px", "fontWeight": "500", "color": "#2c3e50", "backgroundColor": "#e8e8e8", "borderRadius": "20px"}),
+                            tab_style={"fontSize": "17px", "fontWeight": "400", "color": "#6c757d", "padding": "10px 25px"},
+                            active_tab_style={"fontSize": "17px", "fontWeight": "600", "color": "#000000", "backgroundColor": "#ffffff", "borderRadius": "25px", "boxShadow": "0 4px 6px rgba(0,0,0,0.05)"}),
+                    dbc.Tab(borough_tab, label="Borough Comparison", tab_id="borough",
+                            tab_style={"fontSize": "17px", "fontWeight": "400", "color": "#6c757d", "padding": "10px 25px"},
+                            active_tab_style={"fontSize": "17px", "fontWeight": "600", "color": "#000000", "backgroundColor": "#ffffff", "borderRadius": "25px", "boxShadow": "0 4px 6px rgba(0,0,0,0.05)"}),
                 ], id="tabs", active_tab="citywide", className="nav-pills justify-content-center"),
             ], width=12)
-        ], className="bg-light py-3 mb-3 rounded"),
+        ], className="py-3 mb-3 rounded", style={"backgroundColor": "#f8f9fa"}),
         
     ], fluid=True)
