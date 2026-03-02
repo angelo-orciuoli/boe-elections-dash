@@ -12,7 +12,7 @@ from layouts import create_app_layout
 
 # Initialize app with Bootstrap theme
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
-app.title = "NYC Election Comparison"
+app.title = "NYC Election Paradox"
 
 # Set layout
 app.layout = create_app_layout()
